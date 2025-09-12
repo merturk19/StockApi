@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using StockApi.Data;
 
 #nullable disable
 
 namespace StockApi.Migrations
 {
-    [DbContext(typeof(AppContext))]
-    [Migration("20250910171202_InitialCreate")]
+    [DbContext(typeof(AppDbContext))]
+    [Migration("20250912141358_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,7 +30,7 @@ namespace StockApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("StockItems");
                 });
 #pragma warning restore 612, 618
         }
