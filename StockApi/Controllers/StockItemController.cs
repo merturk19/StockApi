@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using StockApi.Data;
 using StockApi.Models;
 
@@ -30,6 +31,38 @@ namespace StockApi.Controllers
             }
             else
             {
+                return BadRequest("No data found");
+            }
+
+        }
+
+        // GET: api/StockItem/Get/id
+        [HttpGet]
+        [Route("Get")]
+        public async Task<ActionResult<StockItem>> GetById(int id)
+        {
+            if (_context != null)
+            {
+                try
+                {
+                    var item = await _context.StockItems.FindAsync(id);
+                    if (item == null)
+                    {
+                        return NotFound($"Item with ID {id} not found.");
+                    }
+                    else
+                    {
+                        return Ok(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving item: {ex}");
+                    return BadRequest(ex.Message);
+                }
+            }
+            else
+            {
                 return NotFound("No objects found");
             }
 
@@ -38,26 +71,40 @@ namespace StockApi.Controllers
         // POST: api/StockItem/AddStockItem
         [HttpPost]
         [Route("AddStockItem")]
-        public async Task<ActionResult<bool>> AddStockItem()
+        public async Task<ActionResult<StockItem>> AddStockItem([FromBody] StockItem item)
         {
-            StockItem itemToAdd = new StockItem
+            if (item == null || string.IsNullOrWhiteSpace(item.name))
             {
-                name = "metal boru",
-                Id = 1,
-            };
+                return BadRequest("Item name cannot be empty.");
+            }
 
             try
             {
-                _context?.StockItems.AddAsync(itemToAdd);
-                return Ok(true);
+                int maxId = 0;
+                if (_context == null)
+                {
+                    return BadRequest("Database context is not available.");
+                }
+
+                if (_context.StockItems.Any())
+                {
+                    maxId = _context.StockItems.Max(i => i.Id);
+                }
+                item.Id = maxId + 1;
+
+                await _context.StockItems.AddAsync(item);
+                await _context.SaveChangesAsync();
+
+                return Ok(item); 
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error adding item: ", ex);
+                Console.WriteLine($"Error adding item: {ex}");
                 return BadRequest(ex.Message);
             }
-
-
         }
+
+        // DELETE: api/StockItem/DeleteStockItem/id
+        
     }
 }
