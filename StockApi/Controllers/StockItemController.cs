@@ -103,7 +103,43 @@ namespace StockApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-         
+
+        [HttpPost]
+        [Route("UpdateStockItem")]
+        public async Task<IActionResult> UpdateStockItem([FromBody] StockItem item)
+        {
+            if (item == null || string.IsNullOrWhiteSpace(item.name))
+            {
+                return BadRequest("Item name cannot be empty.");
+            }
+            if (_context == null)
+            {
+                return BadRequest("Database context is not available.");
+            }
+            try
+            {
+                var existingItem = await _context.StockItems.FindAsync(item.Id);
+                if (existingItem == null)
+                {
+                    return NotFound($"Item with ID {item.Id} not found.");
+                }
+
+                // FILL ACCORDING TO PROPERTIES OF STOCK ITEMS
+                existingItem.name = item.name;
+
+                // END FILL
+
+                _context.StockItems.Update(existingItem);
+                await _context.SaveChangesAsync();
+                return Ok($"Item with ID {item.Id} updated successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating item: {ex}");
+                return BadRequest(ex.Message);
+            }
+        }
+
         // DELETE: api/StockItem/DeleteStockItem/id
         [HttpDelete]
         [Route("DeleteStockItem")]
