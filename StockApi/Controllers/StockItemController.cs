@@ -95,7 +95,7 @@ namespace StockApi.Controllers
                 await _context.StockItems.AddAsync(item);
                 await _context.SaveChangesAsync();
 
-                return Ok($"Added new item with id: {maxId}");
+                return Ok($"Added new item with id: {item.Id}");
             }
             catch (Exception ex)
             {

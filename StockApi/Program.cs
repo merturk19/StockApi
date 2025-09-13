@@ -7,12 +7,24 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var folder = Environment.SpecialFolder.LocalApplicationData;
-var path = Environment.GetFolderPath(folder);
-var dbPath = System.IO.Path.Join(path, "stockitems.db");
+//DB setup////
+//var folder = Environment.SpecialFolder.LocalApplicationData;
+//var path = Environment.GetFolderPath(folder);
 
+//SQLite setup
+//var dbPath = System.IO.Path.Join(path, "stockitems.db");
+
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlite($"Data Source={dbPath}"));
+//End SQLite setup
+
+//Npgsql setup
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnectionNpgSql")));
+//End Npgsql setup
+
+//End DB setup////
+
 
 var app = builder.Build();
 

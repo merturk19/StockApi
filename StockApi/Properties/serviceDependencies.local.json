@@ -3,11 +3,14 @@
     "secrets1": {
       "type": "secrets.user"
     },
-    "sqlite1": {
+    "postgresql1": {
+      "containerPorts": "5432:5432",
       "secretStore": "LocalSecretsFile",
-      "type": "sqlite.local",
-      "connectionId": "ConnectionStrings:DatabaseConnection",
-      "dynamicId": null
+      "containerName": "postgresql",
+      "containerImage": "postgres",
+      "resourceId": null,
+      "type": "postgresql.container",
+      "connectionId": "ConnectionStrings:DatabaseConnectionNpgSql"
     }
   }
 }

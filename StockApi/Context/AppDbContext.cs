@@ -11,5 +11,6 @@ namespace StockApi.Data
             : base(options)
         {
         }
+
     }
 }
