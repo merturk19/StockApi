@@ -95,7 +95,7 @@ namespace StockApi.Controllers
                 await _context.StockItems.AddAsync(item);
                 await _context.SaveChangesAsync();
 
-                return Ok(item); 
+                return Ok($"Added new item with id: {maxId}");
             }
             catch (Exception ex)
             {
@@ -105,6 +105,31 @@ namespace StockApi.Controllers
         }
 
         // DELETE: api/StockItem/DeleteStockItem/id
-        
+        [HttpDelete]
+        [Route("DeleteStockItem")]
+        public async Task<IActionResult> DeleteStockItem(int id)
+        {
+            if (_context == null)
+            {
+                return BadRequest("Database context is not available.");
+            }
+            try
+            {
+                var item = await _context.StockItems.FindAsync(id);
+                if (item == null)
+                {
+                    return NotFound($"Item with ID {id} not found.");
+                }
+                _context.StockItems.Remove(item);
+                await _context.SaveChangesAsync();
+                return Ok($"Item with ID {id} deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting item: {ex}");
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }
