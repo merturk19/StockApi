@@ -7,6 +7,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//DOCKER SETUP
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    options.ListenAnyIP(int.Parse(port));
+//});
+
 //DB setup////
 //var folder = Environment.SpecialFolder.LocalApplicationData;
 //var path = Environment.GetFolderPath(folder);
