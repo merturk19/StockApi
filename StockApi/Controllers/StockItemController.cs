@@ -103,7 +103,7 @@ namespace StockApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+         
         // DELETE: api/StockItem/DeleteStockItem/id
         [HttpDelete]
         [Route("DeleteStockItem")]
