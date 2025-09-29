@@ -20,7 +20,7 @@ namespace StockApi.Controllers
             _context = context;
         }
 
-        // GET: api/StockItem/GetAll
+        // GET: stockapi/StockItem/GetAll
         [HttpGet]
         [Route("GetAll")]
         public async Task<ActionResult<IEnumerable<StockItem>>> GetAll()
@@ -36,7 +36,7 @@ namespace StockApi.Controllers
 
         }
 
-        // GET: api/StockItem/Get/id
+        // GET: stockapi/StockItem/Get/id
         [HttpGet]
         [Route("Get")]
         public async Task<ActionResult<StockItem>> GetById(int id)
@@ -68,7 +68,7 @@ namespace StockApi.Controllers
 
         }
 
-        // POST: api/StockItem/AddStockItem
+        // POST: stockapi/StockItem/AddStockItem
         [HttpPost]
         [Route("AddStockItem")]
         public async Task<ActionResult<StockItem>> AddStockItem([FromBody] StockItem item)
@@ -140,7 +140,7 @@ namespace StockApi.Controllers
             }
         }
 
-        // DELETE: api/StockItem/DeleteStockItem/id
+        // DELETE: stockapi/StockItem/DeleteStockItem/id
         [HttpDelete]
         [Route("DeleteStockItem")]
         public async Task<IActionResult> DeleteStockItem(int id)
