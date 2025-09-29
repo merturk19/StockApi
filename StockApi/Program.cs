@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
-
+ 
 //DOCKER SETUP
 //var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 
