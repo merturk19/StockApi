@@ -51,11 +51,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments and serve it at the root path
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "StockApi v1");
+    c.RoutePrefix = string.Empty; // Swagger UI at '/'
+});
 
 // Disable HTTPS redirection when front-end calls API over HTTP from Docker
 // app.UseHttpsRedirection();
@@ -66,13 +68,8 @@ app.UseCors(policy => policy
     .AllowAnyHeader()
     .AllowAnyMethod());
 
-// Serve SPA static files from wwwroot
-app.UseDefaultFiles();
-app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
-// SPA fallback: serve index.html for non-API routes
-app.MapFallbackToFile("index.html");
 // Apply pending EF migrations at startup (safe for dev/test)
 using (var scope = app.Services.CreateScope())
 {
