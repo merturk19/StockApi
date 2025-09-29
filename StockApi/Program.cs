@@ -34,7 +34,7 @@ builder.Services.AddCors(options =>
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseSqlite($"Data Source={dbPath}"));
 //End SQLite setup
-
+ 
 //Npgsql setup
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnectionNpgSql"), npgsql =>
